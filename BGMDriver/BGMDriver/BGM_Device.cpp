@@ -83,6 +83,7 @@ void	BGM_Device::StaticInitializer()
 								   kObjectID_Mute_Output_Master);
         sInstance->Activate();
 
+#if 1
         // The instance for system (UI) sounds.
         sUISoundsInstance = new BGM_Device(kObjectID_Device_UI_Sounds,
 										   CFSTR(kDeviceName_UISounds),
@@ -105,6 +106,7 @@ void	BGM_Device::StaticInitializer()
         theUISoundsVolumeControl.SetWillApplyVolumeToAudio(true);
 
         sUISoundsInstance->Activate();
+#endif
     }
     catch(...)
     {

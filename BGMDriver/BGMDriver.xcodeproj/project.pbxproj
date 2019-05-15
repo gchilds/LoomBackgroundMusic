@@ -113,7 +113,7 @@
 		1C8034DE1BDD073B00668E00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1CA2A9E01E8D1D08007A76A4 /* BGM_Stream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BGM_Stream.cpp; sourceTree = "<group>"; };
 		1CA2A9E11E8D1D08007A76A4 /* BGM_Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGM_Stream.h; sourceTree = "<group>"; };
-		1CB8B3641BBBB78D000E2DD1 /* Background Music Device.driver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Background Music Device.driver"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CB8B3641BBBB78D000E2DD1 /* Loom Background Music Device.driver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Loom Background Music Device.driver"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CB8B3681BBBB78D000E2DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1CB8B36D1BBBD541000E2DD1 /* BGM_PlugInInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BGM_PlugInInterface.cpp; sourceTree = "<group>"; };
 		1CB8B3701BBBD8A4000E2DD1 /* CADebugMacros.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CADebugMacros.cpp; path = PublicUtility/CADebugMacros.cpp; sourceTree = "<group>"; };
@@ -237,7 +237,7 @@
 		1CB8B3651BBBB78D000E2DD1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1CB8B3641BBBB78D000E2DD1 /* Background Music Device.driver */,
+				1CB8B3641BBBB78D000E2DD1 /* Loom Background Music Device.driver */,
 				1C8034DA1BDD073B00668E00 /* BGMDriverTests.xctest */,
 				2743C9C61D7EF84B0089613B /* libPublicUtility.a */,
 			);
@@ -393,7 +393,7 @@
 			);
 			name = "Background Music Device";
 			productName = BGMDriver;
-			productReference = 1CB8B3641BBBB78D000E2DD1 /* Background Music Device.driver */;
+			productReference = 1CB8B3641BBBB78D000E2DD1 /* Loom Background Music Device.driver */;
 			productType = "com.apple.product-type.bundle";
 		};
 		2743C9C51D7EF84B0089613B /* PublicUtility */ = {
@@ -762,8 +762,8 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Audio/Plug-Ins/HAL";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bearisdriving.BGM.Driver;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.loom.com.bearisdriving.BGM.Driver;
+				PRODUCT_NAME = "Loom $(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = driver;
@@ -796,8 +796,8 @@
 				INFOPLIST_FILE = BGMDriver/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Audio/Plug-Ins/HAL";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bearisdriving.BGM.Driver;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.loom.com.bearisdriving.BGM.Driver;
+				PRODUCT_NAME = "Loom $(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = driver;
