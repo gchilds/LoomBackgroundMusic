@@ -281,7 +281,7 @@
         playThrough_UISounds.StopIfIdle();
     }
 
-    CFStringRef outputDeviceUID = outputDevice.CopyDeviceUID();
+    CFStringRef outputDeviceUID = outputDevice.GetDeviceUID();
     DebugMsg("BGMAudioDeviceManager::setOutputDeviceWithIDImpl: Set output device to %s (%d)",
              CFStringGetCStringPtr(outputDeviceUID, kCFStringEncodingUTF8),
              outputDevice.GetObjectID());

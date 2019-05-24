@@ -144,7 +144,7 @@ public:
 #pragma mark Implementation
 
 public:
-    CFStringRef                 CopyDeviceUID() const
+    CFStringRef                 GetDeviceUID() const
                                     { return CFSTR(kBGMNullDeviceUID); };
 
     void                        AddClient(const AudioServerPlugInClientInfo* inClientInfo)

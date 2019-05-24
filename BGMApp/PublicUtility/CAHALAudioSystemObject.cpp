@@ -133,7 +133,7 @@ void	CAHALAudioSystemObject::LogBasicDeviceInfo()
 		theDeviceName.GetCString(theCString, theCStringSize);
 		DebugMessageN1("CAHALAudioSystemObject::LogBasicDeviceInfo:   Name:      %s", theCString);
 		
-		CACFString theDeviceUID(theDevice.CopyDeviceUID());
+		CACFString theDeviceUID(theDevice.GetDeviceUID());
 		theCStringSize = sizeof(theCString);
 		theDeviceUID.GetCString(theCString, theCStringSize);
 		DebugMessageN1("CAHALAudioSystemObject::LogBasicDeviceInfo:   UID:       %s", theCString);

@@ -95,7 +95,7 @@ public:
 #pragma mark Implementation
 
 public:
-    virtual CFStringRef         CopyDeviceUID() const = 0;
+    virtual CFStringRef         GetDeviceUID() const = 0;
     virtual void                AddClient(const AudioServerPlugInClientInfo* inClientInfo) = 0;
     virtual void                RemoveClient(const AudioServerPlugInClientInfo* inClientInfo) = 0;
     virtual void                PerformConfigChange(UInt64 inChangeAction,

@@ -187,7 +187,7 @@ private:
 #pragma mark Implementation
     
 public:
-    CFStringRef __nonnull		CopyDeviceUID() const { return mDeviceUID; }
+    CFStringRef __nonnull		GetDeviceUID() const { return mDeviceUID; }
     void                        AddClient(const AudioServerPlugInClientInfo* __nonnull inClientInfo);
     void                        RemoveClient(const AudioServerPlugInClientInfo* __nonnull inClientInfo);
     /*!

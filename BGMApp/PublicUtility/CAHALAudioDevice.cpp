@@ -77,7 +77,7 @@ CAHALAudioDevice::~CAHALAudioDevice()
 {
 }
 
-CFStringRef	CAHALAudioDevice::CopyDeviceUID() const
+CFStringRef	CAHALAudioDevice::GetDeviceUID() const
 {
 	CAPropertyAddress theAddress(kAudioDevicePropertyDeviceUID);
 	return GetPropertyData_CFString(theAddress, 0, NULL);

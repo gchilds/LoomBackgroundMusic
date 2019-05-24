@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1CB8B3631BBBB78D000E2DD1"
-               BuildableName = "Background Music Device.driver"
+               BuildableName = "Loom Background Music Device.driver"
                BlueprintName = "Background Music Device"
                ReferencedContainer = "container:BGMDriver.xcodeproj">
             </BuildableReference>
@@ -27,7 +27,6 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       enableAddressSanitizer = "YES"
-      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
@@ -45,7 +44,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1CB8B3631BBBB78D000E2DD1"
-            BuildableName = "Background Music Device.driver"
+            BuildableName = "Loom Background Music Device.driver"
             BlueprintName = "Background Music Device"
             ReferencedContainer = "container:BGMDriver.xcodeproj">
          </BuildableReference>
@@ -58,7 +57,6 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       debugAsWhichUser = "root"
-      language = ""
       launchStyle = "1"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -73,7 +71,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1CB8B3631BBBB78D000E2DD1"
-            BuildableName = "Background Music Device.driver"
+            BuildableName = "Loom Background Music Device.driver"
             BlueprintName = "Background Music Device"
             ReferencedContainer = "container:BGMDriver.xcodeproj">
          </BuildableReference>
@@ -98,7 +96,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1CB8B3631BBBB78D000E2DD1"
-            BuildableName = "Background Music Device.driver"
+            BuildableName = "Loom Background Music Device.driver"
             BlueprintName = "Background Music Device"
             ReferencedContainer = "container:BGMDriver.xcodeproj">
          </BuildableReference>

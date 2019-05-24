@@ -56,7 +56,7 @@ BGMAudioDevice::~BGMAudioDevice()
 
 bool    BGMAudioDevice::CanBeOutputDeviceInBGMApp() const
 {
-    CFStringRef uid = CopyDeviceUID();
+    CFStringRef uid = GetDeviceUID();
     bool isNullDevice = CFEqual(uid, CFSTR(kBGMNullDeviceUID));
     CFRelease(uid);
 
@@ -170,7 +170,7 @@ void    BGMAudioDevice::CopyVolumeFrom(const BGMAudioDevice inDevice,
         {
             OSStatus err = e.GetError();
             char err4CC[5] = CA4CCToCString(err);
-            CFStringRef uid = CopyDeviceUID();
+            CFStringRef uid = GetDeviceUID();
             LogWarning("BGMAudioDevice::CopyVolumeFrom: CAException '%s' trying to set master "
                        "volume of %s",
                        err4CC,
@@ -339,7 +339,7 @@ bool    BGMAudioDevice::IsBGMDevice(bool inIncludeUISoundsInstance) const
     if(GetObjectID() != kAudioObjectUnknown)
     {
         // Check the device's UID to see whether it's BGMDevice.
-        CFStringRef uid = CopyDeviceUID();
+        CFStringRef uid = GetDeviceUID();
 
         isBGMDevice =
             CFEqual(uid, CFSTR(kBGMDeviceUID)) ||

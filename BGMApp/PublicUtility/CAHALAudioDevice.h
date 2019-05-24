@@ -75,7 +75,7 @@ public:
 
 //	General Stuff
 public:
-	CFStringRef			CopyDeviceUID() const;
+	CFStringRef			GetDeviceUID() const;
 	bool				HasModelUID() const;
 	CFStringRef			CopyModelUID() const;
 	CFStringRef			CopyConfigurationApplicationBundleID() const;

@@ -234,20 +234,20 @@ void	BGM_PlugIn::GetPropertyData(AudioObjectID inObjectID, pid_t inClientPID, co
                 CFStringRef theUID = *reinterpret_cast<const CFStringRef*>(inQualifierData);
                 AudioObjectID* outID = reinterpret_cast<AudioObjectID*>(outData);
 
-                if(CFEqual(theUID, BGM_Device::GetInstance().CopyDeviceUID()))
+                if(CFEqual(theUID, BGM_Device::GetInstance().GetDeviceUID()))
                 {
                     DebugMsg("BGM_PlugIn::GetPropertyData: Returning BGMDevice for "
                              "kAudioPlugInPropertyTranslateUIDToDevice");
                     *outID = kObjectID_Device;
                 }
-                else if(CFEqual(theUID, BGM_Device::GetUISoundsInstance().CopyDeviceUID()))
+                else if(CFEqual(theUID, BGM_Device::GetUISoundsInstance().GetDeviceUID()))
                 {
                     DebugMsg("BGM_PlugIn::GetPropertyData: Returning BGMUISoundsDevice for "
                              "kAudioPlugInPropertyTranslateUIDToDevice");
                     *outID = kObjectID_Device_UI_Sounds;
                 }
                 else if(BGM_NullDevice::GetInstance().IsActive() &&
-                        CFEqual(theUID, BGM_NullDevice::GetInstance().CopyDeviceUID()))
+                        CFEqual(theUID, BGM_NullDevice::GetInstance().GetDeviceUID()))
                 {
                     DebugMsg("BGM_PlugIn::GetPropertyData: Returning null device for "
                              "kAudioPlugInPropertyTranslateUIDToDevice");

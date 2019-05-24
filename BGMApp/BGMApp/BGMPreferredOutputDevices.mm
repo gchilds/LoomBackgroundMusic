@@ -125,7 +125,7 @@ NSString* const kAudioSystemSettingsPlist =
     BGM_Utils::LogAndSwallowExceptions(BGMDbgArgs, [&] {
         BGMAudioDevice defaultDevice = CAHALAudioSystemObject().GetDefaultAudioDevice(false, false);
         NSString* __nullable defaultDeviceUID =
-            (__bridge_transfer NSString* __nullable)defaultDevice.CopyDeviceUID();
+            (__bridge_transfer NSString* __nullable)defaultDevice.GetDeviceUID();
 
         if (defaultDeviceUID) {
             preferredOutputDeviceInfos = @[ @{ @"uid": BGMNN(defaultDeviceUID) } ];
@@ -358,7 +358,7 @@ NSString* const kAudioSystemSettingsPlist =
                 if (BGMAudioDevice(devices[i]).CanBeOutputDeviceInBGMApp()) {
                     // Get the connected device's UID.
                     connectedDeviceUID =
-                        (__bridge NSString* __nullable)CAHALAudioDevice(devices[i]).CopyDeviceUID();
+                        (__bridge NSString* __nullable)CAHALAudioDevice(devices[i]).GetDeviceUID();
                 }
             });
 
@@ -459,7 +459,7 @@ NSString* const kAudioSystemSettingsPlist =
         BGM_Utils::LogAndSwallowExceptions(BGMDbgArgs, [&] {
             // Add the new output device to the list.
             NSString* __nullable outputDeviceUID =
-                (__bridge_transfer NSString* __nullable)CAHALAudioDevice(device).CopyDeviceUID();
+                (__bridge_transfer NSString* __nullable)CAHALAudioDevice(device).GetDeviceUID();
 
             if (outputDeviceUID) {
                 // Limit the list to three devices because that's what macOS does.
