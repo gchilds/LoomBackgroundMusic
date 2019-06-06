@@ -260,6 +260,10 @@ private:
 	BGM_MuteControl				mMuteControl;
     bool                        mPendingOutputVolumeControlEnabled = true;
     bool                        mPendingOutputMuteControlEnabled   = true;
+    
+    UInt32  mLoomCanBeOutputDevice = 0;
+    
+
 
 };
 

@@ -120,7 +120,12 @@ enum
     kAudioDeviceCustomPropertyAppVolumes                              = 'apvs',
     // A CFArray of CFBooleans indicating which of BGMDevice's controls are enabled. All controls are enabled
     // by default. This property is settable. See the array indices below for more info.
-    kAudioDeviceCustomPropertyEnabledOutputControls                   = 'bgct'
+    kAudioDeviceCustomPropertyEnabledOutputControls                   = 'bgct',
+
+    // A CFBoolean of when Loom is recording, during which the driver must be able to be default output device
+    kAudioDeviceCustomPropertyLoomCanBeDefaultOutputDevice         = 'loom',
+    
+    kBGMAudioDeviceNumCustomProperties                                = 7,
 };
 
 // The number of silent/audible frames before BGMDriver will change kAudioDeviceCustomPropertyDeviceAudibleState

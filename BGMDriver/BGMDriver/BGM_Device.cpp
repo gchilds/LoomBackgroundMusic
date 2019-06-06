@@ -326,6 +326,7 @@ bool	BGM_Device::Device_HasProperty(AudioObjectID inObjectID, pid_t inClientPID,
         case kAudioDeviceCustomPropertyDeviceIsRunningSomewhereOtherThanBGMApp:
         case kAudioDeviceCustomPropertyAppVolumes:
         case kAudioDeviceCustomPropertyEnabledOutputControls:
+        case kAudioDeviceCustomPropertyLoomCanBeDefaultOutputDevice:
 			theAnswer = true;
 			break;
 			
@@ -373,6 +374,7 @@ bool	BGM_Device::Device_IsPropertySettable(AudioObjectID inObjectID, pid_t inCli
         case kAudioDeviceCustomPropertyMusicPlayerBundleID:
         case kAudioDeviceCustomPropertyAppVolumes:
         case kAudioDeviceCustomPropertyEnabledOutputControls:
+        case kAudioDeviceCustomPropertyLoomCanBeDefaultOutputDevice:
 			theAnswer = true;
 			break;
 		
@@ -459,7 +461,7 @@ UInt32	BGM_Device::Device_GetPropertyDataSize(AudioObjectID inObjectID, pid_t in
             break;
             
         case kAudioObjectPropertyCustomPropertyInfoList:
-            theAnswer = sizeof(AudioServerPlugInCustomPropertyInfo) * 6;
+            theAnswer = sizeof(AudioServerPlugInCustomPropertyInfo) * kBGMAudioDeviceNumCustomProperties;
             break;
             
         case kAudioDeviceCustomPropertyDeviceAudibleState:
@@ -485,7 +487,10 @@ UInt32	BGM_Device::Device_GetPropertyDataSize(AudioObjectID inObjectID, pid_t in
         case kAudioDeviceCustomPropertyEnabledOutputControls:
             theAnswer = sizeof(CFArrayRef);
             break;
-		
+        case kAudioDeviceCustomPropertyLoomCanBeDefaultOutputDevice:
+            theAnswer = sizeof(CFBooleanRef);
+            break;
+            
 		default:
 			theAnswer = BGM_AbstractDevice::GetPropertyDataSize(inObjectID, inClientPID, inAddress, inQualifierDataSize, inQualifierData);
 			break;
@@ -658,6 +663,7 @@ void	BGM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
 			break;
 
         case kAudioDevicePropertyDeviceCanBeDefaultDevice:
+        case kAudioDevicePropertyDeviceCanBeDefaultSystemDevice:
             // See BGM_AbstractDevice::GetPropertyData.
 			//
 			// We don't allow the UI Sounds instance of BGM_Device to be set as the default device
@@ -673,7 +679,11 @@ void	BGM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
                     "kAudioDevicePropertyDeviceCanBeDefaultDevice for the device");
             // TODO: Add a field for this and set it in BGM_Device::StaticInitializer so we don't
             //       have to handle a specific instance differently here.
-            *reinterpret_cast<UInt32*>(outData) = (GetObjectID() == kObjectID_Device_UI_Sounds ? 0 : 1);
+            if (GetObjectID() == kObjectID_Device_UI_Sounds) {
+                *reinterpret_cast<UInt32*>(outData) = 0;
+            } else {
+                *reinterpret_cast<UInt32*>(outData) = mLoomCanBeOutputDevice;
+            }
             outDataSize = sizeof(UInt32);
             break;
 
@@ -886,9 +896,9 @@ void	BGM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
             theNumberItemsToFetch = inDataSize / sizeof(AudioServerPlugInCustomPropertyInfo);
             
             //	clamp it to the number of items we have
-            if(theNumberItemsToFetch > 6)
+            if(theNumberItemsToFetch > kBGMAudioDeviceNumCustomProperties)
             {
-                theNumberItemsToFetch = 6;
+                theNumberItemsToFetch = kBGMAudioDeviceNumCustomProperties;
             }
             
             if(theNumberItemsToFetch > 0)
@@ -926,6 +936,12 @@ void	BGM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
                 ((AudioServerPlugInCustomPropertyInfo*)outData)[5].mSelector = kAudioDeviceCustomPropertyEnabledOutputControls;
                 ((AudioServerPlugInCustomPropertyInfo*)outData)[5].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFPropertyList;
                 ((AudioServerPlugInCustomPropertyInfo*)outData)[5].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
+            }
+            if(theNumberItemsToFetch > 6)
+            {
+                ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mSelector = kAudioDeviceCustomPropertyLoomCanBeDefaultOutputDevice;
+                ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFPropertyList;
+                ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
             }
 
             outDataSize = theNumberItemsToFetch * sizeof(AudioServerPlugInCustomPropertyInfo);
@@ -992,7 +1008,11 @@ void	BGM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
                 outDataSize = sizeof(CFArrayRef);
             }
             break;
-
+        case kAudioDeviceCustomPropertyLoomCanBeDefaultOutputDevice:
+            *reinterpret_cast<CFBooleanRef*>(outData) = mLoomCanBeOutputDevice ? kCFBooleanTrue : kCFBooleanFalse;
+            outDataSize = sizeof(CFBooleanRef);
+            break;
+            
 		default:
 			BGM_AbstractDevice::GetPropertyData(inObjectID, inClientPID, inAddress, inQualifierDataSize, inQualifierData, inDataSize, outDataSize, outData);
 			break;
@@ -1003,6 +1023,36 @@ void	BGM_Device::Device_SetPropertyData(AudioObjectID inObjectID, pid_t inClient
 {
 	switch(inAddress.mSelector)
 	{
+        case kAudioDeviceCustomPropertyLoomCanBeDefaultOutputDevice: {
+            ThrowIf(inDataSize < sizeof(CFBooleanRef),
+                    CAException(kAudioHardwareBadPropertySizeError),
+                    "BGM_Device::Device_SetPropertyData: wrong size for the data for kAudioDeviceCustomPropertyLoomCanBeDefaultOutputDevice");
+            const CFBooleanRef loomCanBeDefaultOutput = *reinterpret_cast<const CFBooleanRef*>(inData);
+
+            mLoomCanBeOutputDevice = CFBooleanGetValue(loomCanBeDefaultOutput) ? 1 : 0;
+
+            // Let others know that these dependent properties have changed. This is responsible for
+            // making the Sound preferences and menu update their lists of output/input devices.
+            // TODO: this could probably be simplified by letting this affect kAudioDevicePropertyIsHidden only
+            static AudioObjectPropertyAddress affectedPropertyAddresses[2] ={
+                {
+                    kAudioDevicePropertyDeviceCanBeDefaultDevice,
+                    kAudioObjectPropertyScopeOutput,
+                    kAudioObjectPropertyElementMaster
+                },
+                {
+                    kAudioDevicePropertyDeviceCanBeDefaultSystemDevice,
+                    kAudioObjectPropertyScopeOutput,
+                    kAudioObjectPropertyElementMaster
+                }
+            };
+
+            CADispatchQueue::GetGlobalSerialQueue().Dispatch(false, ^{
+                BGM_PlugIn::Host_PropertiesChanged(inObjectID, sizeof(affectedPropertyAddresses)/sizeof(affectedPropertyAddresses[0]), affectedPropertyAddresses);
+            });
+
+
+        } break;
         case kAudioDevicePropertyNominalSampleRate:
             ThrowIf(inDataSize < sizeof(Float64),
                     CAException(kAudioHardwareBadPropertySizeError),
